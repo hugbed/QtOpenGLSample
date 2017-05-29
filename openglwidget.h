@@ -8,6 +8,8 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLTexture>
 
+#include "rectangleentity.h"
+
 #include <vector>
 #include <memory>
 
@@ -26,10 +28,10 @@ public:
 private:
     void initTextures();
 
-    void initTextureRectangle();
+    void initEntities();
     void initStereoTextureRectangle();
 
-    void drawTextureRectangle();
+    void drawEntities();
     void drawStereoTextureRectangle();
 
     void printVersionInformation();
@@ -39,6 +41,8 @@ private:
     QOpenGLVertexArrayObject m_object;
     std::vector<QOpenGLTexture*> m_textures;
     QOpenGLShaderProgram* m_program;
+
+    std::vector<Entity*> m_entities;
 };
 
 #endif // GLWIDGET_H

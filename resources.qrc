@@ -1,12 +1,14 @@
 <RCC>
     <qresource prefix="/">
-        <file>shaders/simple.frag</file>
-        <file>shaders/simple.vert</file>
         <file>images/photo.jpg</file>
         <file>shaders/texture.frag</file>
         <file>shaders/texture.vert</file>
         <file>images/left.jpg</file>
         <file>images/right.jpg</file>
-        <file>shaders/anaglyph.frag</file>
+        <file>shaders/stereo/anaglyph.frag</file>
+        <file>shaders/stereo/overlap.vert</file>
+        <file>shaders/stereo/sidebyside.vert</file>
+        <file>shaders/color.frag</file>
+        <file>shaders/color.vert</file>
     </qresource>
 </RCC>

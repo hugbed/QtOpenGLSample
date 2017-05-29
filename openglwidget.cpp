@@ -3,6 +3,7 @@
 #include <QOpenGLShaderProgram>
 
 #include "vertex.h"
+#include "anaglyphrectangleentity.h"
 
 #include <cassert>
 
@@ -44,7 +45,8 @@ void OpenGLWidget::initializeGL()
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     initTextures();
-    initStereoTextureRectangle();
+//    initStereoTextureRectangle();
+    initEntities();
 }
 
 void OpenGLWidget::resizeGL(int w, int h)
@@ -57,7 +59,8 @@ void OpenGLWidget::paintGL()
     // Clear
     glClear(GL_COLOR_BUFFER_BIT);
 
-    drawStereoTextureRectangle();
+//    drawStereoTextureRectangle();
+    drawEntities();
 }
 
 void OpenGLWidget::initTextures()
@@ -73,42 +76,31 @@ void OpenGLWidget::initTextures()
     m_textures.push_back(texture);
 }
 
-void OpenGLWidget::initTextureRectangle()
+void OpenGLWidget::initEntities()
 {
-    // Create Shader (Do not release until VAO is created)
-    m_program = new QOpenGLShaderProgram;
-    m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/texture.vert");
-    m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/texture.frag");
-    m_program->link();
-    m_program->bind();
+    auto *rectangle = new RectangleEntity;
+    rectangle->init(-1.0f, 1.0f, 0.0, -1.0f);
+    rectangle->addTexture(m_textures[0]);
+    m_entities.push_back(rectangle);
 
-    // Create Buffer (Do not release until VAO is created)
-    m_vertex.create();
-    m_vertex.bind();
-    m_vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
-    m_vertex.allocate(rectangle_vertices, sizeof(rectangle_vertices));
+    rectangle = new RectangleEntity;
+    rectangle->init(0.0f, 1.0f, 1.0, -1.0f);
+    rectangle->addTexture(m_textures[1]);
+    m_entities.push_back(rectangle);
 
-    // Create Vertex Array Object
-    m_object.create();
-    m_object.bind();
-    m_program->enableAttributeArray(0);
-    m_program->enableAttributeArray(1);
-    m_program->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
-    m_program->setAttributeBuffer(1, GL_FLOAT, Vertex::texCoordOffset(), Vertex::TexCoordTupleSize, Vertex::stride());
-    m_program->setUniformValue("uTexture", 0);
-
-    // Release (unbind) all
-    m_object.release();
-    m_vertex.release();
-    m_program->release();
+//    auto *rectangle = new AnaglyphRectangleEntity;
+//    rectangle->init();
+//    rectangle->addTexture(m_textures[0]);
+//    rectangle->addTexture(m_textures[1]);
+//    m_entities.push_back(rectangle);
 }
 
 void OpenGLWidget::initStereoTextureRectangle()
 {
     // Create Shader (Do not release until VAO is created)
     m_program = new QOpenGLShaderProgram;
-    m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/texture.vert");
-    m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/anaglyph.frag");
+    m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/stereo/overlap.vert");
+    m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/stereo/anaglyph.frag");
     m_program->link();
     m_program->bind();
 
@@ -127,6 +119,7 @@ void OpenGLWidget::initStereoTextureRectangle()
     m_program->setAttributeBuffer(1, GL_FLOAT, Vertex::texCoordOffset(), Vertex::TexCoordTupleSize, Vertex::stride());
     m_program->setUniformValue("uTextureLeft", 0);
     m_program->setUniformValue("uTextureRight", 1);
+    m_program->setUniformValue("uHorizontalShift", 0.02f);
 
     // Release (unbind) all
     m_object.release();
@@ -134,17 +127,11 @@ void OpenGLWidget::initStereoTextureRectangle()
     m_program->release();
 }
 
-void OpenGLWidget::drawTextureRectangle()
+void OpenGLWidget::drawEntities()
 {
-    // Render using our shader
-    m_program->bind();
-    {
-      m_textures[0]->bind();
-      m_object.bind();
-      glDrawArrays(GL_TRIANGLES, 0, sizeof(rectangle_vertices) / sizeof(rectangle_vertices[0]));
-      m_object.release();
+    for (auto *entity : m_entities) {
+        entity->draw();
     }
-    m_program->release();
 }
 
 void OpenGLWidget::drawStereoTextureRectangle()

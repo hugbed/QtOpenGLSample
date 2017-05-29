@@ -17,14 +17,18 @@ SOURCES += \
     main.cpp \
     window.cpp \
     mainwindow.cpp \
-    openglwidget.cpp
+    openglwidget.cpp \
+    rectangleentity.cpp \
+    anaglyphrectangleentity.cpp
 
 HEADERS += \
     window.h \
     vertex.h \
     mainwindow.h \
     openglwidget.h \
-    vertex.h
+    vertex.h \
+    rectangleentity.h \
+    anaglyphrectangleentity.h
 
 RESOURCES += \
     resources.qrc
@@ -33,4 +37,6 @@ FORMS += \
         mainwindow.ui
 
 DISTFILES += \
-    shaders/anaglyph.frag
+    shaders/anaglyph.frag \
+    shaders/stereo.vert \
+    shaders/stereo/sidebyside.vert
