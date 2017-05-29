@@ -7,13 +7,10 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 
-#include "vertex.h"
+#include "entity.h"
+#include "../vertex.h"
 
-class Entity {
-public:
-    virtual void draw() = 0;
-    virtual ~Entity() {}
-};
+// todo: this seems a lot like a stereo image entity implementation (draw, setTexture, setHorizontalShift
 
 class RectangleEntity : public Entity, QOpenGLFunctions
 {
@@ -31,8 +28,8 @@ public:
     virtual void addShaders();
     virtual void setDefaultUniforms();
 
-    void addTexture(QOpenGLTexture* texture);
-    void clearTextures();
+    void setTexture(int index, QOpenGLTexture* texture);
+    void setHorizontalShift(float shift);
 
 protected:
     QOpenGLShaderProgram* m_program;
@@ -53,7 +50,7 @@ private:
     // OpenGL State Information
     QOpenGLBuffer m_vertex;
     QOpenGLVertexArrayObject m_object;
-    std::vector<QOpenGLTexture*> m_textures;
+    std::map<int, QOpenGLTexture*> m_textures;
 
     std::vector<Vertex> m_vertices;
 };

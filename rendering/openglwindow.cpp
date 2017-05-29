@@ -1,4 +1,4 @@
-#include "window.h"
+#include "openglwindow.h"
 #include <QDebug>
 #include <QString>
 #include <QOpenGLShaderProgram>
@@ -15,7 +15,7 @@ static const Vertex triangle_vertices[] = {
  * OpenGL Events
  ******************************************************************************/
 
-void Window::initializeGL()
+void OpenGLWindow::initializeGL()
 {
   // Initialize OpenGL Backend
   initializeOpenGLFunctions();
@@ -28,14 +28,14 @@ void Window::initializeGL()
   initTexturedTriangle();
 }
 
-void Window::resizeGL(int width, int height)
+void OpenGLWindow::resizeGL(int width, int height)
 {
   // Currently we are not handling width/height changes.
   (void)width;
   (void)height;
 }
 
-void Window::paintGL()
+void OpenGLWindow::paintGL()
 {
   // Clear
   glClear(GL_COLOR_BUFFER_BIT);
@@ -43,7 +43,7 @@ void Window::paintGL()
   drawTexturedTriangle();
 }
 
-void Window::teardownGL()
+void OpenGLWindow::teardownGL()
 {
   // Actually destroy our OpenGL information
   m_object.destroy();
@@ -51,7 +51,7 @@ void Window::teardownGL()
   delete m_program;
 }
 
-void Window::initColorTriangle()
+void OpenGLWindow::initColorTriangle()
 {
     // Create Shader (Do not release until VAO is created)
     m_program = new QOpenGLShaderProgram();
@@ -80,7 +80,7 @@ void Window::initColorTriangle()
     m_program->release();
 }
 
-void Window::initTexturedTriangle()
+void OpenGLWindow::initTexturedTriangle()
 {
     // Create Shader (Do not release until VAO is created)
     m_program = new QOpenGLShaderProgram();
@@ -118,7 +118,7 @@ void Window::initTexturedTriangle()
     m_program->release();
 }
 
-void Window::drawColorTriangle()
+void OpenGLWindow::drawColorTriangle()
 {
     // Render using our shader
     m_program->bind();
@@ -130,7 +130,7 @@ void Window::drawColorTriangle()
     m_program->release();
 }
 
-void Window::drawTexturedTriangle()
+void OpenGLWindow::drawTexturedTriangle()
 {
     // Render using our shader
     m_program->bind();
@@ -147,7 +147,7 @@ void Window::drawTexturedTriangle()
  * Private Helpers
  ******************************************************************************/
 
-void Window::printVersionInformation()
+void OpenGLWindow::printVersionInformation()
 {
   QString glType;
   QString glVersion;

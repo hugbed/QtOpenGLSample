@@ -1,5 +1,7 @@
 #include "rectangleentity.h"
 
+#include <cassert>
+
 namespace {
 // Create a texture rectangle
 static const Vertex rectangle_vertices_fullscreen[] = {
@@ -70,23 +72,27 @@ void RectangleEntity::releaseAll()
 
 RectangleEntity::~RectangleEntity()
 {
+    // todo: replace delete with reset(nullptr)
     m_object.destroy();
     m_vertex.destroy();
-    clearTextures();
     delete m_program;
 }
 
-void RectangleEntity::addTexture(QOpenGLTexture *texture)
+void RectangleEntity::setTexture(int index, QOpenGLTexture *texture)
 {
-    m_textures.push_back(texture);
+    auto it = m_textures.find(index);
+
+    // replace if already in map
+    if(it != m_textures.end()) {
+       it->second = texture;
+    } else { // add it to the map
+       m_textures.insert(std::pair<int, QOpenGLTexture*>(index, texture));
+    }
 }
 
-void RectangleEntity::clearTextures()
+void RectangleEntity::setHorizontalShift(float shift)
 {
-    for (auto *texture : m_textures) {
-        delete texture;
-    }
-    m_textures.clear();
+    m_program->setUniformValue("uHorizontalShift", shift);
 }
 
 void RectangleEntity::setCorners(float left, float top, float right, float bottom)
@@ -108,11 +114,9 @@ void RectangleEntity::draw()
     // Render using our shader
     m_program->bind();
     {
-      auto textureIDIt = GL_TEXTURE0;
-      auto textureIt = std::begin(m_textures);
-      for (auto *texture : m_textures) {
-        glActiveTexture(textureIDIt++);
-        (*textureIt++)->bind();
+      for (auto textureIt = std::begin(m_textures); textureIt != std::end(m_textures); ++textureIt) {
+        glActiveTexture(GL_TEXTURE0 + (*textureIt).first);
+        (*textureIt).second->bind();
       }
       m_object.bind();
       {
@@ -125,13 +129,14 @@ void RectangleEntity::draw()
 
 void RectangleEntity::addShaders()
 {
-    m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/texture.vert");
+    m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/textureshift.vert");
     m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/texture.frag");
 }
 
 void RectangleEntity::setDefaultUniforms()
 {
     m_program->setUniformValue("uTexture", 0);
+    m_program->setUniformValue("uHorizontalShift", 0.0f);
 }
 
 // static

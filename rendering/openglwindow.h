@@ -9,7 +9,7 @@
 
 class QOpenGLShaderProgram;
 
-class Window : public QOpenGLWindow,
+class OpenGLWindow : public QOpenGLWindow,
                protected QOpenGLFunctions
 {
   Q_OBJECT

@@ -15,28 +15,37 @@ CONFIG += cpp14
 
 SOURCES += \
     main.cpp \
-    window.cpp \
     mainwindow.cpp \
-    openglwidget.cpp \
-    rectangleentity.cpp \
-    anaglyphrectangleentity.cpp
+    rendering/openglwidget.cpp \
+    rendering/entity/rectangleentity.cpp \
+    rendering/entity/anaglyphrectangleentity.cpp \
+    rendering/entity/stereo/stereosidebysideentity.cpp \
+    rendering/entity/stereo/stereoanaglyphentity.cpp \
+    rendering/openglwindow.cpp \
+    rendering/entity/stereo/stereoleftentity.cpp \
+    rendering/entity/stereo/stereorightentity.cpp
 
 HEADERS += \
-    window.h \
-    vertex.h \
+    rendering/vertex.h \
     mainwindow.h \
-    openglwidget.h \
-    vertex.h \
-    rectangleentity.h \
-    anaglyphrectangleentity.h
+    rendering/openglwidget.h \
+    rendering/vertex.h \
+    rendering/entity/rectangleentity.h \
+    rendering/entity/anaglyphrectangleentity.h \
+    rendering/entity/stereo/stereoimageentity.h \
+    rendering/entity/entity.h \
+    rendering/entity/stereo/stereosidebysideentity.h \
+    rendering/entity/stereo/stereoanaglyphentity.h \
+    rendering/openglwindow.h \
+    rendering/entity/stereo/stereoleftentity.h \
+    rendering/entity/stereo/stereorightentity.h
 
 RESOURCES += \
     resources.qrc
 
 FORMS += \
-        mainwindow.ui
+    mainwindow.ui
 
 DISTFILES += \
-    shaders/anaglyph.frag \
-    shaders/stereo.vert \
-    shaders/stereo/sidebyside.vert
+    shaders/stereo/textureshift.vert \
+    shaders/textureshift.vert

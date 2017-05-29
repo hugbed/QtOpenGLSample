@@ -8,7 +8,8 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLTexture>
 
-#include "rectangleentity.h"
+#include "entity/rectangleentity.h"
+#include "entity/stereo/stereoimageentity.h"
 
 #include <vector>
 #include <memory>
@@ -18,12 +19,23 @@ class QOpenGLShaderProgram;
 class OpenGLWidget : public QOpenGLWidget, protected QOpenGLFunctions
 {
 public:
+    enum class DisplayMode {
+        Anaglyph = 0,
+        SideBySide = 1,
+        Left = 2,
+        Right = 3,
+        NB_DISPLAY_MODES = 4
+    };
+
     ~OpenGLWidget();
     explicit OpenGLWidget(QWidget* parent) : QOpenGLWidget(parent) {}
 
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;
+
+public slots:
+    void displayModeChanged(DisplayMode mode);
 
 private:
     void initTextures();
@@ -34,15 +46,10 @@ private:
     void drawEntities();
     void drawStereoTextureRectangle();
 
-    void printVersionInformation();
-
-    // OpenGL State Information
-    QOpenGLBuffer m_vertex;
-    QOpenGLVertexArrayObject m_object;
     std::vector<QOpenGLTexture*> m_textures;
-    QOpenGLShaderProgram* m_program;
 
-    std::vector<Entity*> m_entities;
+    Entity* m_currentEntity;
+    StereoImageEntity* m_stereoEntities[static_cast<int>(DisplayMode::NB_DISPLAY_MODES)];
 };
 
 #endif // GLWIDGET_H

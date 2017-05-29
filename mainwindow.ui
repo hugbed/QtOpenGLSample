@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,10 +25,20 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>800</width>
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuDisplay_Mode">
+    <property name="title">
+     <string>Display Mode</string>
+    </property>
+    <addaction name="actionAnaglyph"/>
+    <addaction name="actionSide_by_side"/>
+    <addaction name="actionLeft"/>
+    <addaction name="actionRight"/>
+   </widget>
+   <addaction name="menuDisplay_Mode"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -37,15 +47,40 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionAnaglyph"/>
+   <addaction name="actionSide_by_side"/>
+   <addaction name="actionLeft"/>
+   <addaction name="actionRight"/>
+   <addaction name="separator"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionAnaglyph">
+   <property name="text">
+    <string>Anaglyph</string>
+   </property>
+  </action>
+  <action name="actionSide_by_side">
+   <property name="text">
+    <string>Side by side</string>
+   </property>
+  </action>
+  <action name="actionLeft">
+   <property name="text">
+    <string>Left</string>
+   </property>
+  </action>
+  <action name="actionRight">
+   <property name="text">
+    <string>Right</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
    <class>OpenGLWidget</class>
    <extends>QOpenGLWidget</extends>
-   <header>openglwidget.h</header>
+   <header>rendering/openglwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
