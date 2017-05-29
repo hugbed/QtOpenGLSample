@@ -5,5 +5,8 @@
         <file>images/photo.jpg</file>
         <file>shaders/texture.frag</file>
         <file>shaders/texture.vert</file>
+        <file>images/left.jpg</file>
+        <file>images/right.jpg</file>
+        <file>shaders/anaglyph.frag</file>
     </qresource>
 </RCC>

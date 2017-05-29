@@ -27,6 +27,9 @@ OpenGLWidget::~OpenGLWidget() {
     makeCurrent();
     m_object.destroy();
     m_vertex.destroy();
+    for (auto & texture : m_textures) {
+        delete texture;
+    }
     delete m_program;
     doneCurrent();
 }
@@ -40,8 +43,8 @@ void OpenGLWidget::initializeGL()
     // Set global information
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    initTexture();
-    initTexturedRectangle();
+    initTextures();
+    initStereoTextureRectangle();
 }
 
 void OpenGLWidget::resizeGL(int w, int h)
@@ -54,81 +57,26 @@ void OpenGLWidget::paintGL()
     // Clear
     glClear(GL_COLOR_BUFFER_BIT);
 
-    drawTexturedRectangle();
+    drawStereoTextureRectangle();
 }
 
-void OpenGLWidget::initTexture()
+void OpenGLWidget::initTextures()
 {
-    // Create Texture
-    m_texture = new QOpenGLTexture(QImage(":/images/photo.jpg").mirrored());
-    m_texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
-    m_texture->setMagnificationFilter(QOpenGLTexture::Linear);
-//    m_texture->setWrapMode(QOpenGLTexture::ClampToEdge);
+    auto *texture = new QOpenGLTexture(QImage(":/images/left.jpg").mirrored());
+    texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+    texture->setMagnificationFilter(QOpenGLTexture::Linear);
+    m_textures.push_back(texture);
+
+    texture = new QOpenGLTexture(QImage(":/images/right.jpg").mirrored());
+    texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+    texture->setMagnificationFilter(QOpenGLTexture::Linear);
+    m_textures.push_back(texture);
 }
 
-void OpenGLWidget::initColorTriangle()
-{
-    // Create Shader (Do not release until VAO is created)
-    m_program = new QOpenGLShaderProgram();
-    m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/simple.vert");
-    m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/simple.frag");
-    m_program->link();
-    m_program->bind();
-
-    // Create Buffer (Do not release until VAO is created)
-    m_vertex.create();
-    m_vertex.bind();
-    m_vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
-    m_vertex.allocate(triangle_vertices, sizeof(triangle_vertices));
-
-    // Create Vertex Array Object
-    m_object.create();
-    m_object.bind();
-    m_program->enableAttributeArray(0);
-    m_program->enableAttributeArray(1);
-    m_program->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
-    m_program->setAttributeBuffer(1, GL_FLOAT, Vertex::colorOffset(), Vertex::ColorTupleSize, Vertex::stride());
-
-    // Release (unbind) all
-    m_object.release();
-    m_vertex.release();
-    m_program->release();
-}
-
-void OpenGLWidget::initTexturedTriangle()
+void OpenGLWidget::initTextureRectangle()
 {
     // Create Shader (Do not release until VAO is created)
-    m_program = new QOpenGLShaderProgram();
-    m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/texture.vert");
-    m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/texture.frag");
-    m_program->link();
-    m_program->bind();
-
-    // Create Buffer (Do not release until VAO is created)
-    m_vertex.create();
-    m_vertex.bind();
-    m_vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
-    m_vertex.allocate(triangle_vertices, sizeof(triangle_vertices));
-
-    // Create Vertex Array Object
-    m_object.create();
-    m_object.bind();
-    m_program->enableAttributeArray(0);
-    m_program->enableAttributeArray(1);
-    m_program->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
-    m_program->setAttributeBuffer(1, GL_FLOAT, Vertex::texCoordOffset(), Vertex::TexCoordTupleSize, Vertex::stride());
-    m_program->setUniformValue("uTexture", 0);
-
-    // Release (unbind) all
-    m_object.release();
-    m_vertex.release();
-    m_program->release();
-}
-
-void OpenGLWidget::initTexturedRectangle()
-{
-    // Create Shader (Do not release until VAO is created)
-    m_program = new QOpenGLShaderProgram();
+    m_program = new QOpenGLShaderProgram;
     m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/texture.vert");
     m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/texture.frag");
     m_program->link();
@@ -155,37 +103,61 @@ void OpenGLWidget::initTexturedRectangle()
     m_program->release();
 }
 
-void OpenGLWidget::drawColorTriangle()
+void OpenGLWidget::initStereoTextureRectangle()
+{
+    // Create Shader (Do not release until VAO is created)
+    m_program = new QOpenGLShaderProgram;
+    m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/texture.vert");
+    m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/anaglyph.frag");
+    m_program->link();
+    m_program->bind();
+
+    // Create Buffer (Do not release until VAO is created)
+    m_vertex.create();
+    m_vertex.bind();
+    m_vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    m_vertex.allocate(rectangle_vertices, sizeof(rectangle_vertices));
+
+    // Create Vertex Array Object
+    m_object.create();
+    m_object.bind();
+    m_program->enableAttributeArray(0);
+    m_program->enableAttributeArray(1);
+    m_program->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
+    m_program->setAttributeBuffer(1, GL_FLOAT, Vertex::texCoordOffset(), Vertex::TexCoordTupleSize, Vertex::stride());
+    m_program->setUniformValue("uTextureLeft", 0);
+    m_program->setUniformValue("uTextureRight", 1);
+
+    // Release (unbind) all
+    m_object.release();
+    m_vertex.release();
+    m_program->release();
+}
+
+void OpenGLWidget::drawTextureRectangle()
 {
     // Render using our shader
     m_program->bind();
     {
+      m_textures[0]->bind();
       m_object.bind();
-      glDrawArrays(GL_TRIANGLES, 0, sizeof(triangle_vertices) / sizeof(triangle_vertices[0]));
+      glDrawArrays(GL_TRIANGLES, 0, sizeof(rectangle_vertices) / sizeof(rectangle_vertices[0]));
       m_object.release();
     }
     m_program->release();
 }
 
-void OpenGLWidget::drawTexturedTriangle()
+void OpenGLWidget::drawStereoTextureRectangle()
 {
     // Render using our shader
-    assert(m_program->bind());
+    m_program->bind();
     {
-      m_texture->bind();
-      m_object.bind();
-      glDrawArrays(GL_TRIANGLES, 0, sizeof(triangle_vertices) / sizeof(triangle_vertices[0]));
-      m_object.release();
-    }
-    m_program->release();
-}
 
-void OpenGLWidget::drawTexturedRectangle()
-{
-    // Render using our shader
-    assert(m_program->bind());
-    {
-      m_texture->bind();
+      glActiveTexture(GL_TEXTURE0);
+      m_textures[0]->bind();
+      glActiveTexture(GL_TEXTURE1);
+      m_textures[1]->bind();
+
       m_object.bind();
       glDrawArrays(GL_TRIANGLES, 0, sizeof(rectangle_vertices) / sizeof(rectangle_vertices[0]));
       m_object.release();

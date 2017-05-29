@@ -31,3 +31,6 @@ RESOURCES += \
 
 FORMS += \
         mainwindow.ui
+
+DISTFILES += \
+    shaders/anaglyph.frag

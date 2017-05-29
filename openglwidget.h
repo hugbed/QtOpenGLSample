@@ -8,6 +8,9 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLTexture>
 
+#include <vector>
+#include <memory>
+
 class QOpenGLShaderProgram;
 
 class OpenGLWidget : public QOpenGLWidget, protected QOpenGLFunctions
@@ -21,21 +24,21 @@ public:
     void paintGL() override;
 
 private:
-    void initTexture();
-    void initColorTriangle();
-    void initTexturedTriangle();
-    void initTexturedRectangle();
-    void drawColorTriangle();
-    void drawTexturedTriangle();
-    void drawTexturedRectangle();
+    void initTextures();
+
+    void initTextureRectangle();
+    void initStereoTextureRectangle();
+
+    void drawTextureRectangle();
+    void drawStereoTextureRectangle();
 
     void printVersionInformation();
 
     // OpenGL State Information
     QOpenGLBuffer m_vertex;
     QOpenGLVertexArrayObject m_object;
-    QOpenGLTexture *m_texture;
-    QOpenGLShaderProgram *m_program;
+    std::vector<QOpenGLTexture*> m_textures;
+    QOpenGLShaderProgram* m_program;
 };
 
 #endif // GLWIDGET_H
