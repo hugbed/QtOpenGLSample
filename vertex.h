@@ -11,6 +11,7 @@ public:
   Q_DECL_CONSTEXPR explicit Vertex(const QVector3D &position);
   Q_DECL_CONSTEXPR Vertex(const QVector3D &position, const QVector3D &color);
   Q_DECL_CONSTEXPR Vertex(const QVector3D &position, const QVector3D &color, const QVector2D& texCoord);
+  Q_DECL_CONSTEXPR Vertex(const QVector3D &position, const QVector2D& texCoord);
 
   // Accessors / Mutators
   Q_DECL_CONSTEXPR const QVector3D& position() const;
@@ -48,6 +49,8 @@ Q_DECL_CONSTEXPR inline Vertex::Vertex(const QVector3D &position) : m_position(p
 Q_DECL_CONSTEXPR inline Vertex::Vertex(const QVector3D &position, const QVector3D &color) : m_position(position), m_color(color) {}
 Q_DECL_CONSTEXPR inline Vertex::Vertex(const QVector3D &position, const QVector3D &color, const QVector2D &texCoord)
     : m_position(position), m_color(color), m_texCoord(texCoord) {}
+Q_DECL_CONSTEXPR inline Vertex::Vertex(const QVector3D &position, const QVector2D &texCoord)
+    : m_position(position), m_texCoord(texCoord) {}
 
 // Accessors / Mutators
 Q_DECL_CONSTEXPR inline const QVector3D& Vertex::position() const { return m_position; }

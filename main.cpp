@@ -1,9 +1,11 @@
-#include <QGuiApplication>
+#include <QApplication>
+
 #include "window.h"
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
-  QGuiApplication app(argc, argv);
+  QApplication app(argc, argv);
 
   // Set OpenGL Version information
   // Note: This format must be set before show() is called.
@@ -12,11 +14,17 @@ int main(int argc, char *argv[])
   format.setProfile(QSurfaceFormat::CoreProfile);
   format.setVersion(3, 3);
 
+  QSurfaceFormat::setDefaultFormat(format);
+
   // Set the window up
-  Window window;
-  window.setFormat(format);
-  window.resize(QSize(800, 600));
-  window.show();
+//  Window window;
+//  window.setFormat(format);
+//  window.resize(QSize(800, 600));
+//  window.show();
+
+  // Set up window
+  MainWindow w;
+  w.show();
 
   return app.exec();
 }

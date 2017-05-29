@@ -1,8 +1,7 @@
 #version 330
-in highp vec4 vColor;
-in highp vec2 vTexCoord;
+in vec2 vTexCoord;
 
-out highp vec4 fColor;
+out vec4 fColor;
 
 uniform sampler2D uTexture;
 

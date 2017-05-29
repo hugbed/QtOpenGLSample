@@ -5,7 +5,7 @@
 #include "vertex.h"
 
 // Create a colored triangle
-static const Vertex sg_vertexes[] = {
+static const Vertex triangle_vertices[] = {
   Vertex( QVector3D( 0.00f,  0.75f, 1.0f), QVector3D(1.0f, 0.0f, 0.0f), QVector2D(-1.0, 1.0) ),
   Vertex( QVector3D(-0.75f, -0.75f, 1.0f), QVector3D(0.0f, 1.0f, 0.0f), QVector2D(1.0, -1.0) ),
   Vertex( QVector3D( 0.75f, -0.75f, 1.0f), QVector3D(0.0f, 0.0f, 1.0f), QVector2D(-1.0, -1.0) )
@@ -64,7 +64,7 @@ void Window::initColorTriangle()
     m_vertex.create();
     m_vertex.bind();
     m_vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
-    m_vertex.allocate(sg_vertexes, sizeof(sg_vertexes));
+    m_vertex.allocate(triangle_vertices, sizeof(triangle_vertices));
 
     // Create Vertex Array Object
     m_object.create();
@@ -93,7 +93,7 @@ void Window::initTexturedTriangle()
     m_vertex.create();
     m_vertex.bind();
     m_vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
-    m_vertex.allocate(sg_vertexes, sizeof(sg_vertexes));
+    m_vertex.allocate(triangle_vertices, sizeof(triangle_vertices));
 
     // Create Texture
     m_texture = new QOpenGLTexture(QImage(":/images/photo.jpg").mirrored());
@@ -112,9 +112,6 @@ void Window::initTexturedTriangle()
     m_program->setAttributeBuffer(2, GL_FLOAT, Vertex::texCoordOffset(), Vertex::TexCoordTupleSize, Vertex::stride());
     m_program->setUniformValue("uTexture", 0);
 
-    // Bind Texture
-    m_texture->bind();
-
     // Release (unbind) all
     m_object.release();
     m_vertex.release();
@@ -127,7 +124,7 @@ void Window::drawColorTriangle()
     m_program->bind();
     {
       m_object.bind();
-      glDrawArrays(GL_TRIANGLES, 0, sizeof(sg_vertexes) / sizeof(sg_vertexes[0]));
+      glDrawArrays(GL_TRIANGLES, 0, sizeof(triangle_vertices) / sizeof(triangle_vertices[0]));
       m_object.release();
     }
     m_program->release();
@@ -138,8 +135,9 @@ void Window::drawTexturedTriangle()
     // Render using our shader
     m_program->bind();
     {
+      m_texture->bind();
       m_object.bind();
-      glDrawArrays(GL_TRIANGLES, 0, sizeof(sg_vertexes) / sizeof(sg_vertexes[0]));
+      glDrawArrays(GL_TRIANGLES, 0, sizeof(triangle_vertices) / sizeof(triangle_vertices[0]));
       m_object.release();
     }
     m_program->release();
