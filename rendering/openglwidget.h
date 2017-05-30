@@ -21,10 +21,12 @@ class OpenGLWidget : public QOpenGLWidget, protected QOpenGLFunctions
 public:
     enum class DisplayMode {
         Anaglyph = 0,
-        SideBySide = 1,
-        Left = 2,
-        Right = 3,
-        NB_DISPLAY_MODES = 4
+        Opacity = 1,
+        Interlaced = 2,
+        SideBySide = 3,
+        Left = 4,
+        Right = 5,
+        NB_DISPLAY_MODES = 6
     };
 
     ~OpenGLWidget();

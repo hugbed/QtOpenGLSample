@@ -11,6 +11,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionAnaglyph, &QAction::triggered, [this]{
        ui->openGLWidget->displayModeChanged(OpenGLWidget::DisplayMode::Anaglyph);
     });
+    connect(ui->actionOpacity, &QAction::triggered, [this]{
+       ui->openGLWidget->displayModeChanged(OpenGLWidget::DisplayMode::Opacity);
+    });
+    connect(ui->actionInterlaced, &QAction::triggered, [this]{
+       ui->openGLWidget->displayModeChanged(OpenGLWidget::DisplayMode::Interlaced);
+    });
     connect(ui->actionSide_by_side, &QAction::triggered, [this]{
        ui->openGLWidget->displayModeChanged(OpenGLWidget::DisplayMode::SideBySide);
     });

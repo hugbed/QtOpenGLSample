@@ -12,5 +12,7 @@
         <file>shaders/color.vert</file>
         <file>shaders/stereo/difference.frag</file>
         <file>shaders/textureshift.vert</file>
+        <file>shaders/stereo/opacity.frag</file>
+        <file>shaders/stereo/interlaced.frag</file>
     </qresource>
 </RCC>

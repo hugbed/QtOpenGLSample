@@ -6,6 +6,8 @@
 #include "entity/anaglyphrectangleentity.h"
 
 #include "entity/stereo/stereoanaglyphentity.h"
+#include "entity/stereo/stereoopacityentity.h"
+#include "entity/stereo/stereointerlacedentity.h"
 #include "entity/stereo/stereosidebysideentity.h"
 #include "entity/stereo/stereoleftentity.h"
 #include "entity/stereo/stereorightentity.h"
@@ -56,6 +58,12 @@ void OpenGLWidget::displayModeChanged(OpenGLWidget::DisplayMode mode)
     case DisplayMode::Anaglyph:
         m_currentEntity = m_stereoEntities[static_cast<int>(DisplayMode::Anaglyph)];
         break;
+    case DisplayMode::Opacity:
+        m_currentEntity = m_stereoEntities[static_cast<int>(DisplayMode::Opacity)];
+        break;
+    case DisplayMode::Interlaced:
+        m_currentEntity = m_stereoEntities[static_cast<int>(DisplayMode::Interlaced)];
+        break;
     case DisplayMode::SideBySide:
         m_currentEntity = m_stereoEntities[static_cast<int>(DisplayMode::SideBySide)];
         break;
@@ -88,6 +96,16 @@ void OpenGLWidget::initEntities()
     stereoImageEntity->setTextureLeft(m_textures[0]);
     stereoImageEntity->setTextureRight(m_textures[1]);
     m_stereoEntities[static_cast<int>(DisplayMode::Anaglyph)] = stereoImageEntity;
+
+    stereoImageEntity = new StereoOpacityEntity;
+    stereoImageEntity->setTextureLeft(m_textures[0]);
+    stereoImageEntity->setTextureRight(m_textures[1]);
+    m_stereoEntities[static_cast<int>(DisplayMode::Opacity)] = stereoImageEntity;
+
+    stereoImageEntity = new StereoInterlacedEntity;
+    stereoImageEntity->setTextureLeft(m_textures[0]);
+    stereoImageEntity->setTextureRight(m_textures[1]);
+    m_stereoEntities[static_cast<int>(DisplayMode::Interlaced)] = stereoImageEntity;
 
     stereoImageEntity = new StereoSideBySideEntity;
     stereoImageEntity->setTextureLeft(m_textures[0]);

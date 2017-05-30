@@ -15,7 +15,7 @@ void AnaglyphRectangleEntity::setDefaultUniforms()
 {
     m_program->setUniformValue("uTextureLeft", 0);
     m_program->setUniformValue("uTextureRight", 1);
-    setHorizontalShift(0.02f);
+    setHorizontalShift(0.0f);
 }
 
 void AnaglyphRectangleEntity::setHorizontalShift(float shift) {

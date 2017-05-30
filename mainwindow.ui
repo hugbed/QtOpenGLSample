@@ -51,6 +51,8 @@
      <string>Display Mode</string>
     </property>
     <addaction name="actionAnaglyph"/>
+    <addaction name="actionOpacity"/>
+    <addaction name="actionInterlaced"/>
     <addaction name="actionSide_by_side"/>
     <addaction name="actionLeft"/>
     <addaction name="actionRight"/>
@@ -65,6 +67,8 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionAnaglyph"/>
+   <addaction name="actionOpacity"/>
+   <addaction name="actionInterlaced"/>
    <addaction name="actionSide_by_side"/>
    <addaction name="actionLeft"/>
    <addaction name="actionRight"/>
@@ -89,6 +93,16 @@
   <action name="actionRight">
    <property name="text">
     <string>Right</string>
+   </property>
+  </action>
+  <action name="actionOpacity">
+   <property name="text">
+    <string>Opacity</string>
+   </property>
+  </action>
+  <action name="actionInterlaced">
+   <property name="text">
+    <string>Interlaced</string>
    </property>
   </action>
  </widget>

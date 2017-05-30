@@ -10,7 +10,7 @@
 #include "entity.h"
 #include "../vertex.h"
 
-// todo: this seems a lot like a stereo image entity implementation (draw, setTexture, setHorizontalShift
+// todo: this seems a lot like a stereo image entity implementation (draw, setTexture, setHorizontalShift)
 
 class RectangleEntity : public Entity, QOpenGLFunctions
 {

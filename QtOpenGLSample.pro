@@ -25,7 +25,11 @@ SOURCES += \
     rendering/entity/stereo/stereoleftentity.cpp \
     rendering/entity/stereo/stereorightentity.cpp \
     widgets/parameterslistview.cpp \
-    widgets/parameterwidget.cpp
+    widgets/parameterwidget.cpp \
+    rendering/entity/stereo/stereoopacityentity.cpp \
+    rendering/entity/stereo/stereointerlacedentity.cpp \
+    rendering/entity/opacityrectangleentity.cpp \
+    rendering/entity/interlacedrectangleentity.cpp
 
 HEADERS += \
     rendering/vertex.h \
@@ -42,7 +46,11 @@ HEADERS += \
     rendering/entity/stereo/stereoleftentity.h \
     rendering/entity/stereo/stereorightentity.h \
     widgets/parameterslistview.h \
-    widgets/parameterwidget.h
+    widgets/parameterwidget.h \
+    rendering/entity/stereo/stereoopacityentity.h \
+    rendering/entity/stereo/stereointerlacedentity.h \
+    rendering/entity/opacityrectangleentity.h \
+    rendering/entity/interlacedrectangleentity.h
 
 RESOURCES += \
     resources.qrc \
@@ -51,6 +59,3 @@ RESOURCES += \
 FORMS += \
     mainwindow.ui
 
-DISTFILES += \
-    shaders/stereo/textureshift.vert \
-    shaders/textureshift.vert
