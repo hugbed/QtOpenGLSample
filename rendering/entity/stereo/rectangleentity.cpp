@@ -2,18 +2,6 @@
 
 #include <cassert>
 
-namespace {
-// Create a texture rectangle
-static const Vertex rectangle_vertices_fullscreen[] = {
-  Vertex( QVector3D(-1.0f,  1.0f, 1.0f), QVector2D(0.0f, 1.0f) ),
-  Vertex( QVector3D( 1.0f,  1.0f, 1.0f), QVector2D(1.0f, 1.0f) ),
-  Vertex( QVector3D( 1.0f, -1.0f, 1.0f), QVector2D(1.0f, 0.0f) ),
-  Vertex( QVector3D(-1.0f,  1.0f, 1.0f), QVector2D(0.0f, 1.0f) ),
-  Vertex( QVector3D( 1.0f, -1.0f, 1.0f), QVector2D(1.0f, 0.0f) ),
-  Vertex( QVector3D(-1.0f, -1.0f, 1.0f), QVector2D(0.0f, 0.0f) )
-};
-}
-
 RectangleEntity::RectangleEntity() {
     initializeOpenGLFunctions();
 }
@@ -95,6 +83,21 @@ void RectangleEntity::setHorizontalShift(float shift)
     m_program->setUniformValue("uHorizontalShift", shift);
 }
 
+void RectangleEntity::setTextureLeft(QOpenGLTexture *texture)
+{
+    setTexture(0, texture);
+}
+
+void RectangleEntity::setTextureRight(QOpenGLTexture *texture)
+{
+    setTexture(1, texture);
+}
+
+void RectangleEntity::setAspectRatio(float ratio)
+{
+    m_program->setUniformValue("uAspectRatio", ratio);
+}
+
 void RectangleEntity::setCorners(float left, float top, float right, float bottom)
 {
     m_vertex.bind();
@@ -135,8 +138,13 @@ void RectangleEntity::addShaders()
 
 void RectangleEntity::setDefaultUniforms()
 {
+    // set possible uniforms (mono/stereo textures)
+    // possible because of early return for non-existent uniforms in setUniformValue
     m_program->setUniformValue("uTexture", 0);
-    m_program->setUniformValue("uHorizontalShift", 0.0f);
+    m_program->setUniformValue("uTextureLeft", 0);
+    m_program->setUniformValue("uTextureRight", 1);
+    setHorizontalShift(0.0f);
+    setAspectRatio(1.0f);
 }
 
 // static

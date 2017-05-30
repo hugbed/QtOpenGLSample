@@ -7,7 +7,6 @@
         <file>images/right.jpg</file>
         <file>shaders/stereo/anaglyph.frag</file>
         <file>shaders/stereo/overlap.vert</file>
-        <file>shaders/stereo/sidebyside.vert</file>
         <file>shaders/color.frag</file>
         <file>shaders/color.vert</file>
         <file>shaders/stereo/difference.frag</file>

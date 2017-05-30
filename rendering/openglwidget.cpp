@@ -5,12 +5,12 @@
 #include "vertex.h"
 #include "entity/anaglyphrectangleentity.h"
 
-#include "entity/stereo/stereoanaglyphentity.h"
-#include "entity/stereo/stereoopacityentity.h"
-#include "entity/stereo/stereointerlacedentity.h"
+#include "entity/anaglyphrectangleentity.h"
+#include "entity/opacityrectangleentity.h"
+#include "entity/interlacedrectangleentity.h"
 #include "entity/stereo/stereosidebysideentity.h"
-#include "entity/stereo/stereoleftentity.h"
-#include "entity/stereo/stereorightentity.h"
+#include "entity/leftrectangleentity.h"
+#include "entity/rightrectangleentity.h"
 
 #include <cassert>
 
@@ -92,19 +92,19 @@ void OpenGLWidget::initTextures()
 
 void OpenGLWidget::initEntities()
 {
-    StereoImageEntity *stereoImageEntity = new StereoAnaglyphEntity;
+    StereoImageEntity *stereoImageEntity = new AnaglyphRectangleEntity;
     stereoImageEntity->init();
     stereoImageEntity->setTextureLeft(m_textures[0]);
     stereoImageEntity->setTextureRight(m_textures[1]);
     m_stereoEntities[static_cast<int>(DisplayMode::Anaglyph)] = stereoImageEntity;
 
-    stereoImageEntity = new StereoOpacityEntity;
+    stereoImageEntity = new OpacityRectangleEntity;
     stereoImageEntity->init();
     stereoImageEntity->setTextureLeft(m_textures[0]);
     stereoImageEntity->setTextureRight(m_textures[1]);
     m_stereoEntities[static_cast<int>(DisplayMode::Opacity)] = stereoImageEntity;
 
-    stereoImageEntity = new StereoInterlacedEntity;
+    stereoImageEntity = new InterlacedRectangleEntity;
     stereoImageEntity->init();
     stereoImageEntity->setTextureLeft(m_textures[0]);
     stereoImageEntity->setTextureRight(m_textures[1]);
@@ -116,12 +116,12 @@ void OpenGLWidget::initEntities()
     stereoImageEntity->setTextureRight(m_textures[1]);
     m_stereoEntities[static_cast<int>(DisplayMode::SideBySide)] = stereoImageEntity;
 
-    stereoImageEntity = new StereoLeftEntity;
+    stereoImageEntity = new LeftRectangleEntity;
     stereoImageEntity->init();
     stereoImageEntity->setTextureLeft(m_textures[0]);
     m_stereoEntities[static_cast<int>(DisplayMode::Left)] = stereoImageEntity;
 
-    stereoImageEntity = new StereoRightEntity;
+    stereoImageEntity = new RightRectangleEntity;
     stereoImageEntity->init();
     stereoImageEntity->setTextureRight(m_textures[1]);
     m_stereoEntities[static_cast<int>(DisplayMode::Right)] = stereoImageEntity;

@@ -16,6 +16,9 @@ void main()
     leftPosX = 0.5;
   }
 
+  float imageRatio = 0.5;
+  position = vec3(position.x, position.y * imageRatio, position.z);
+
   gl_Position = vec4(position, 1.0);
   vTexCoordLeft = vec2(texCoord.x + uHorizontalShift, texCoord.y);
   vTexCoordRight = vec2(texCoord.x - uHorizontalShift, texCoord.y);

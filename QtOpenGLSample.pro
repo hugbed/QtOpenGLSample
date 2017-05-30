@@ -16,43 +16,35 @@ CONFIG += c++14
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    rendering/openglwidget.cpp \
-    rendering/entity/rectangleentity.cpp \
-    rendering/entity/anaglyphrectangleentity.cpp \
-    rendering/entity/stereo/stereosidebysideentity.cpp \
-    rendering/entity/stereo/stereoanaglyphentity.cpp \
     rendering/openglwindow.cpp \
-    rendering/entity/stereo/stereoleftentity.cpp \
-    rendering/entity/stereo/stereorightentity.cpp \
+    rendering/openglwidget.cpp \
+    rendering/entity/stereo/rectangleentity.cpp \
+    rendering/entity/stereo/anaglyphrectangleentity.cpp \
+    rendering/entity/stereo/stereosidebysideentity.cpp \
+    rendering/entity/stereo/opacityrectangleentity.cpp \
+    rendering/entity/stereo/interlacedrectangleentity.cpp \
+    rendering/entity/stereo/leftrectangleentity.cpp \
+    rendering/entity/stereo/rightrectangleentity.cpp \
     widgets/parameterslistview.cpp \
-    widgets/parameterwidget.cpp \
-    rendering/entity/stereo/stereoopacityentity.cpp \
-    rendering/entity/stereo/stereointerlacedentity.cpp \
-    rendering/entity/opacityrectangleentity.cpp \
-    rendering/entity/interlacedrectangleentity.cpp \
-    rendering/entity/stereo/stereorectangleentity.cpp
+    widgets/parameterwidget.cpp
 
 HEADERS += \
     rendering/vertex.h \
     mainwindow.h \
+    rendering/openglwindow.h \
     rendering/openglwidget.h \
     rendering/vertex.h \
-    rendering/entity/rectangleentity.h \
-    rendering/entity/anaglyphrectangleentity.h \
-    rendering/entity/stereo/stereoimageentity.h \
     rendering/entity/entity.h \
+    rendering/entity/stereo/rectangleentity.h \
+    rendering/entity/stereo/anaglyphrectangleentity.h \
+    rendering/entity/stereo/stereoimageentity.h \
     rendering/entity/stereo/stereosidebysideentity.h \
-    rendering/entity/stereo/stereoanaglyphentity.h \
-    rendering/openglwindow.h \
-    rendering/entity/stereo/stereoleftentity.h \
-    rendering/entity/stereo/stereorightentity.h \
+    rendering/entity/stereo/opacityrectangleentity.h \
+    rendering/entity/stereo/interlacedrectangleentity.h \
+    rendering/entity/stereo/leftrectangleentity.h \
+    rendering/entity/stereo/rightrectangleentity.h \
     widgets/parameterslistview.h \
-    widgets/parameterwidget.h \
-    rendering/entity/stereo/stereoopacityentity.h \
-    rendering/entity/stereo/stereointerlacedentity.h \
-    rendering/entity/opacityrectangleentity.h \
-    rendering/entity/interlacedrectangleentity.h \
-    rendering/entity/stereo/stereorectangleentity.h
+    widgets/parameterwidget.h
 
 RESOURCES += \
     resources.qrc \
