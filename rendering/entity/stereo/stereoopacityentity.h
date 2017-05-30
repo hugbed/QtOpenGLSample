@@ -1,23 +1,17 @@
 #ifndef STEREOOPACITYENTITY_H
 #define STEREOOPACITYENTITY_H
 
+#include "stereorectangleentity.h"
+
 #include "../opacityrectangleentity.h"
-#include "stereoimageentity.h"
 
-// todo: could work with generic RectangleEntity and another class for 2 rectangles
+#include <memory>
 
-class StereoOpacityEntity : public StereoImageEntity
+class StereoOpacityEntity : public StereoRectangleEntity
 {
 public:
     StereoOpacityEntity();
-
-    void setTextureLeft(QOpenGLTexture *texture) override;
-    void setTextureRight(QOpenGLTexture *texture) override;
-    void draw() override;
-    void setHorizontalShift(float shift) override;
-
-private:
-    OpacityRectangleEntity m_rectangle;
+    std::unique_ptr<RectangleEntity> createRectangle() override;
 };
 
 #endif // STEREOOPACITYENTITY_H

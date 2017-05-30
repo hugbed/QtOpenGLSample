@@ -93,30 +93,36 @@ void OpenGLWidget::initTextures()
 void OpenGLWidget::initEntities()
 {
     StereoImageEntity *stereoImageEntity = new StereoAnaglyphEntity;
+    stereoImageEntity->init();
     stereoImageEntity->setTextureLeft(m_textures[0]);
     stereoImageEntity->setTextureRight(m_textures[1]);
     m_stereoEntities[static_cast<int>(DisplayMode::Anaglyph)] = stereoImageEntity;
 
     stereoImageEntity = new StereoOpacityEntity;
+    stereoImageEntity->init();
     stereoImageEntity->setTextureLeft(m_textures[0]);
     stereoImageEntity->setTextureRight(m_textures[1]);
     m_stereoEntities[static_cast<int>(DisplayMode::Opacity)] = stereoImageEntity;
 
     stereoImageEntity = new StereoInterlacedEntity;
+    stereoImageEntity->init();
     stereoImageEntity->setTextureLeft(m_textures[0]);
     stereoImageEntity->setTextureRight(m_textures[1]);
     m_stereoEntities[static_cast<int>(DisplayMode::Interlaced)] = stereoImageEntity;
 
     stereoImageEntity = new StereoSideBySideEntity;
+    stereoImageEntity->init();
     stereoImageEntity->setTextureLeft(m_textures[0]);
     stereoImageEntity->setTextureRight(m_textures[1]);
     m_stereoEntities[static_cast<int>(DisplayMode::SideBySide)] = stereoImageEntity;
 
     stereoImageEntity = new StereoLeftEntity;
+    stereoImageEntity->init();
     stereoImageEntity->setTextureLeft(m_textures[0]);
     m_stereoEntities[static_cast<int>(DisplayMode::Left)] = stereoImageEntity;
 
     stereoImageEntity = new StereoRightEntity;
+    stereoImageEntity->init();
     stereoImageEntity->setTextureRight(m_textures[1]);
     m_stereoEntities[static_cast<int>(DisplayMode::Right)] = stereoImageEntity;
 

@@ -1,26 +1,11 @@
 #include "stereoopacityentity.h"
 
 StereoOpacityEntity::StereoOpacityEntity()
+    : StereoRectangleEntity()
 {
-    m_rectangle.init();
 }
 
-void StereoOpacityEntity::setTextureLeft(QOpenGLTexture *texture)
+std::unique_ptr<RectangleEntity> StereoOpacityEntity::createRectangle()
 {
-    m_rectangle.setTexture(0, texture);
-}
-
-void StereoOpacityEntity::setTextureRight(QOpenGLTexture *texture)
-{
-    m_rectangle.setTexture(1, texture);
-}
-
-void StereoOpacityEntity::draw()
-{
-    m_rectangle.draw();
-}
-
-void StereoOpacityEntity::setHorizontalShift(float shift)
-{
-    m_rectangle.setHorizontalShift(shift);
+    return std::make_unique<OpacityRectangleEntity>();
 }

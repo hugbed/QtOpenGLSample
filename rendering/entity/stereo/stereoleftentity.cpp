@@ -1,25 +1,15 @@
 #include "stereoleftentity.h"
 
 StereoLeftEntity::StereoLeftEntity()
+    : StereoRectangleEntity()
 {
-    m_rectangle.init();
 }
 
-void StereoLeftEntity::setTextureLeft(QOpenGLTexture *texture)
+std::unique_ptr<RectangleEntity> StereoLeftEntity::createRectangle()
 {
-    m_rectangle.setTexture(0, texture);
+    return std::make_unique<RectangleEntity>();
 }
 
 void StereoLeftEntity::setTextureRight(QOpenGLTexture */*texture*/)
 {
-}
-
-void StereoLeftEntity::draw()
-{
-    m_rectangle.draw();
-}
-
-void StereoLeftEntity::setHorizontalShift(float shift)
-{
-    m_rectangle.setHorizontalShift(shift);
 }

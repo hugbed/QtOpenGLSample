@@ -1,26 +1,11 @@
 #include "stereoanaglyphentity.h"
 
 StereoAnaglyphEntity::StereoAnaglyphEntity()
+    : StereoRectangleEntity()
 {
-    m_rectangle.init();
 }
 
-void StereoAnaglyphEntity::setTextureLeft(QOpenGLTexture *texture)
+std::unique_ptr<RectangleEntity> StereoAnaglyphEntity::createRectangle()
 {
-    m_rectangle.setTexture(0, texture);
-}
-
-void StereoAnaglyphEntity::setTextureRight(QOpenGLTexture *texture)
-{
-    m_rectangle.setTexture(1, texture);
-}
-
-void StereoAnaglyphEntity::draw()
-{
-    m_rectangle.draw();
-}
-
-void StereoAnaglyphEntity::setHorizontalShift(float shift)
-{
-    m_rectangle.setHorizontalShift(shift);
+    return std::make_unique<AnaglyphRectangleEntity>();
 }

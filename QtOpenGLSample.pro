@@ -11,7 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = QtOpenGLSample
 TEMPLATE = app
 CONFIG += console
-CONFIG += cpp14
+CONFIG += c++14
 
 SOURCES += \
     main.cpp \
@@ -29,7 +29,8 @@ SOURCES += \
     rendering/entity/stereo/stereoopacityentity.cpp \
     rendering/entity/stereo/stereointerlacedentity.cpp \
     rendering/entity/opacityrectangleentity.cpp \
-    rendering/entity/interlacedrectangleentity.cpp
+    rendering/entity/interlacedrectangleentity.cpp \
+    rendering/entity/stereo/stereorectangleentity.cpp
 
 HEADERS += \
     rendering/vertex.h \
@@ -50,7 +51,8 @@ HEADERS += \
     rendering/entity/stereo/stereoopacityentity.h \
     rendering/entity/stereo/stereointerlacedentity.h \
     rendering/entity/opacityrectangleentity.h \
-    rendering/entity/interlacedrectangleentity.h
+    rendering/entity/interlacedrectangleentity.h \
+    rendering/entity/stereo/stereorectangleentity.h
 
 RESOURCES += \
     resources.qrc \

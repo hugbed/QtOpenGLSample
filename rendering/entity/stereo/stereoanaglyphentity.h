@@ -1,21 +1,17 @@
 #ifndef STEREOANAGLYPHENTITY_H
 #define STEREOANAGLYPHENTITY_H
 
-#include "../anaglyphrectangleentity.h"
-#include "stereoimageentity.h"
+#include "stereorectangleentity.h"
 
-class StereoAnaglyphEntity : public StereoImageEntity
+#include "../anaglyphrectangleentity.h"
+
+#include <memory>
+
+class StereoAnaglyphEntity : public StereoRectangleEntity
 {
 public:
     StereoAnaglyphEntity();
-
-    void setTextureLeft(QOpenGLTexture *texture) override;
-    void setTextureRight(QOpenGLTexture *texture) override;
-    void draw() override;
-    void setHorizontalShift(float shift) override;
-
-private:
-    AnaglyphRectangleEntity m_rectangle;
+    std::unique_ptr<RectangleEntity> createRectangle() override;
 };
 
 #endif // STEREOANAGLYPHENTITY_H

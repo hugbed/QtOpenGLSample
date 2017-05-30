@@ -1,21 +1,16 @@
 #ifndef STEREOLEFTENTITY_H
 #define STEREOLEFTENTITY_H
 
-#include "../rectangleentity.h"
-#include "stereoimageentity.h"
+#include "stereorectangleentity.h"
 
-class StereoLeftEntity : public StereoImageEntity
+#include "../rectangleentity.h"
+
+class StereoLeftEntity : public StereoRectangleEntity
 {
 public:
     StereoLeftEntity();
-
-    void setTextureLeft(QOpenGLTexture *texture) override;
+    std::unique_ptr<RectangleEntity> createRectangle() override;
     void setTextureRight(QOpenGLTexture *texture) override;
-    void draw() override;
-    void setHorizontalShift(float shift) override;
-
-private:
-    RectangleEntity m_rectangle;
 };
 
 #endif // STEREOLEFTENTITY_H

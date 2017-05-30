@@ -1,11 +1,12 @@
 #include "stereosidebysideentity.h"
 
-StereoSideBySideEntity::StereoSideBySideEntity()
+StereoSideBySideEntity::StereoSideBySideEntity() = default;
+
+void StereoSideBySideEntity::init()
 {
     m_rectangles[0].init(-1.0f, 1.0f, 0.0, -1.0f);
     m_rectangles[1].init(0.0f, 1.0f, 1.0, -1.0f);
 }
-
 
 void StereoSideBySideEntity::setTextureLeft(QOpenGLTexture *texture)
 {
