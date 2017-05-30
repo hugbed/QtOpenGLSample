@@ -1,4 +1,7 @@
 #include <QApplication>
+#include <QFile>
+
+#include <cassert>
 
 #include "rendering/openglwindow.h"
 #include "mainwindow.h"
@@ -16,8 +19,15 @@ int main(int argc, char *argv[])
 
   QSurfaceFormat::setDefaultFormat(format);
 
+  // set style
+  QFile f(":/qdarkstyle/style.qss");
+  assert(f.exists());
+  f.open(QFile::ReadOnly | QFile::Text);
+  QTextStream ts(&f);
+  app.setStyleSheet(ts.readAll());
+
   // Set the window up
-//  Window window;
+//  OpenGLWindow window;
 //  window.setFormat(format);
 //  window.resize(QSize(800, 600));
 //  window.show();

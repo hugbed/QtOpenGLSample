@@ -23,7 +23,9 @@ SOURCES += \
     rendering/entity/stereo/stereoanaglyphentity.cpp \
     rendering/openglwindow.cpp \
     rendering/entity/stereo/stereoleftentity.cpp \
-    rendering/entity/stereo/stereorightentity.cpp
+    rendering/entity/stereo/stereorightentity.cpp \
+    widgets/parameterslistview.cpp \
+    widgets/parameterwidget.cpp
 
 HEADERS += \
     rendering/vertex.h \
@@ -38,10 +40,13 @@ HEADERS += \
     rendering/entity/stereo/stereoanaglyphentity.h \
     rendering/openglwindow.h \
     rendering/entity/stereo/stereoleftentity.h \
-    rendering/entity/stereo/stereorightentity.h
+    rendering/entity/stereo/stereorightentity.h \
+    widgets/parameterslistview.h \
+    widgets/parameterwidget.h
 
 RESOURCES += \
-    resources.qrc
+    resources.qrc \
+    style/style.qrc
 
 FORMS += \
     mainwindow.ui

@@ -40,7 +40,7 @@ void OpenGLWidget::initializeGL()
 
 void OpenGLWidget::resizeGL(int w, int h)
 {
-    // adjust viewport for right image ratio
+    // adjust image ratio somehow
 }
 
 void OpenGLWidget::paintGL()

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>656</width>
+    <height>631</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,24 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="OpenGLWidget" name="openGLWidget"/>
+     <widget class="OpenGLWidget" name="openGLWidget">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="ParametersListView" name="widget" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -25,7 +42,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>656</width>
      <height>22</height>
     </rect>
    </property>
@@ -81,6 +98,12 @@
    <class>OpenGLWidget</class>
    <extends>QOpenGLWidget</extends>
    <header>rendering/openglwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ParametersListView</class>
+   <extends>QWidget</extends>
+   <header>widgets/parameterslistview.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
