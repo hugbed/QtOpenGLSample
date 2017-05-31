@@ -10,7 +10,7 @@ out vec4 fColor;
 
 void main(void)
 {
-    vec4 t0 = texture(uTexture0, vTexCoordLeft);
-    vec4 t1 = texture(uTexture1, vTexCoordRight);
+    vec4 t0 = texture2D(uTexture0, vTexCoordLeft);
+    vec4 t1 = texture2D(uTexture1, vTexCoordRight);
     fColor = mix(t1, t0, 0.5);
 }
