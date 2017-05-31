@@ -36,11 +36,14 @@ public:
     void resizeGL(int w, int h) override;
     void paintGL() override;
 
+    void setHorizontalShift(float shift);
+
 public slots:
     void displayModeChanged(DisplayMode mode);
 
 private:
     void initTextures();
+    void addTexture(const QString &filename);
     void initEntities();
     void drawEntities();
     float computeImageAspectRatio();
@@ -48,10 +51,12 @@ private:
     template <class T>
     void createEntity(DisplayMode mode);
 
-    QSize viewportSize;
-    std::vector<QOpenGLTexture*> m_textures;
+    QSize m_viewportSize;
+    float m_horizontalShift;
+
+    std::vector<std::unique_ptr<QOpenGLTexture>> m_textures;
     DisplayMode m_currentMode;
-    StereoImageEntity* m_stereoEntities[static_cast<int>(DisplayMode::NB_DISPLAY_MODES)];
+    std::unique_ptr<StereoImageEntity> m_stereoEntities[static_cast<int>(DisplayMode::NB_DISPLAY_MODES)];
 };
 
 #endif // GLWIDGET_H

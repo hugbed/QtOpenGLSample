@@ -11,6 +11,8 @@
 #include "rendering/entity/entity.h"
 #include "stereoimageentity.h"
 
+#include <memory>
+
 class RectangleEntity : public StereoImageEntity, QOpenGLFunctions
 {
 public:
@@ -33,9 +35,8 @@ public:
     void setCorners(float left, float top, float right, float bottom);
     void setTexture(int index, QOpenGLTexture* texture);
 
-
 protected:
-    QOpenGLShaderProgram* m_program;
+    std::unique_ptr<QOpenGLShaderProgram> m_program;
 
 private:
     static std::vector<Vertex> fullscreenVertices();
@@ -54,7 +55,6 @@ private:
     QOpenGLBuffer m_vertex;
     QOpenGLVertexArrayObject m_object;
     std::map<int, QOpenGLTexture*> m_textures;
-
     std::vector<Vertex> m_vertices;
 };
 

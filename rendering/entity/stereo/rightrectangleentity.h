@@ -9,6 +9,7 @@ public:
     RightRectangleEntity();
     void setTextureLeft(QOpenGLTexture */*texture*/) override;
     void setTextureRight(QOpenGLTexture *texture) override;
+    void setHorizontalShift(float shift) override;
 };
 
 #endif // RIGHTRECTANGLEENTITY_H

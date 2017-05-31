@@ -1,6 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QEvent>
+#include <QMouseEvent>
+#include <QDoubleSpinBox>
+
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -25,6 +29,10 @@ MainWindow::MainWindow(QWidget *parent) :
     });
     connect(ui->actionRight, &QAction::triggered, [this]{
        ui->openGLWidget->displayModeChanged(OpenGLWidget::DisplayMode::Right);
+    });
+
+    connect(ui->hitWidget, QOverload<double>::of(&QDoubleSpinBox::valueChanged), [this](double value) {
+       ui->openGLWidget->setHorizontalShift(value/100.0);
     });
 }
 

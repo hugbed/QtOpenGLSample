@@ -26,7 +26,9 @@ SOURCES += \
     rendering/entity/stereo/leftrectangleentity.cpp \
     rendering/entity/stereo/rightrectangleentity.cpp \
     widgets/parameterslistview.cpp \
-    widgets/parameterwidget.cpp
+    widgets/parameterwidget.cpp \
+    widgets/hitwidget.cpp \
+    widgets/lineeditnocursor.cpp
 
 HEADERS += \
     rendering/vertex.h \
@@ -44,7 +46,9 @@ HEADERS += \
     rendering/entity/stereo/leftrectangleentity.h \
     rendering/entity/stereo/rightrectangleentity.h \
     widgets/parameterslistview.h \
-    widgets/parameterwidget.h
+    widgets/parameterwidget.h \
+    widgets/hitwidget.h \
+    widgets/lineeditnocursor.h
 
 RESOURCES += \
     resources.qrc \

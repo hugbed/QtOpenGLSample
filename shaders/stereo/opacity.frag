@@ -3,14 +3,14 @@
 in vec2 vTexCoordLeft;
 in vec2 vTexCoordRight;
 
-uniform sampler2D uTextureLeft;
-uniform sampler2D uTextureRight;
+uniform sampler2D uTexture0;
+uniform sampler2D uTexture1;
 
 out vec4 fColor;
 
 void main(void)
 {
-    vec4 t0 = texture2D(uTextureLeft, vTexCoordLeft);
-    vec4 t1 = texture2D(uTextureRight, vTexCoordRight);
+    vec4 t0 = texture2D(uTexture0, vTexCoordLeft);
+    vec4 t1 = texture2D(uTexture1, vTexCoordRight);
     fColor = mix(t1, t0, 0.5);
 }

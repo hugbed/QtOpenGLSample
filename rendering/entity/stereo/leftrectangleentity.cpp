@@ -8,3 +8,8 @@ LeftRectangleEntity::LeftRectangleEntity()
 void LeftRectangleEntity::setTextureRight(QOpenGLTexture */*texture*/)
 {
 }
+
+void LeftRectangleEntity::setHorizontalShift(float shift)
+{
+    RectangleEntity::setHorizontalShift(shift/2.0f);
+}

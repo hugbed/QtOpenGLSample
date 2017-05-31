@@ -26,7 +26,7 @@ void RectangleEntity::init(const std::vector<Vertex> &vertices)
 
 void RectangleEntity::createShader()
 {
-    m_program = new QOpenGLShaderProgram;
+    m_program = std::make_unique<QOpenGLShaderProgram>();
     addShaders();
     m_program->link();
     m_program->bind();
@@ -61,10 +61,9 @@ void RectangleEntity::releaseAll()
 
 RectangleEntity::~RectangleEntity()
 {
-    // todo: replace delete with reset(nullptr)
     m_object.destroy();
     m_vertex.destroy();
-    delete m_program;
+    m_program.reset();
 }
 
 void RectangleEntity::setTexture(int index, QOpenGLTexture *texture)
@@ -151,9 +150,8 @@ void RectangleEntity::setDefaultUniforms()
     // possible because of early return for non-existent uniforms in setUniformValue
     m_program->bind();
     {
-        m_program->setUniformValue("uTexture", 0);
-        m_program->setUniformValue("uTextureLeft", 0);
-        m_program->setUniformValue("uTextureRight", 1);
+        m_program->setUniformValue("uTexture0", 0);
+        m_program->setUniformValue("uTexture1", 1);
         setHorizontalShift(0.0f);
         setAspectRatio(1.0f);
     }
@@ -173,12 +171,12 @@ std::vector<Vertex> RectangleEntity::fullscreenVertices()
 // static
 std::vector<Vertex> RectangleEntity::cornersVertices(float left, float top, float right, float bottom)
 {
-    std::vector<Vertex> vertices;
-    vertices.emplace_back(QVector3D(left,  top,    1.0f), QVector2D(0.0f, 1.0f));
-    vertices.emplace_back(QVector3D(right, top,    1.0f), QVector2D(1.0f, 1.0f));
-    vertices.emplace_back(QVector3D(right, bottom, 1.0f), QVector2D(1.0f, 0.0f));
-    vertices.emplace_back(QVector3D(left,  top,    1.0f), QVector2D(0.0f, 1.0f));
-    vertices.emplace_back(QVector3D(right, bottom, 1.0f), QVector2D(1.0f, 0.0f));
-    vertices.emplace_back(QVector3D(left,  bottom, 1.0f), QVector2D(0.0f, 0.0f));
-    return vertices;
+    return {
+        {QVector3D(left,  top,    1.0f), QVector2D(0.0f, 1.0f)},
+        {QVector3D(right, top,    1.0f), QVector2D(1.0f, 1.0f)},
+        {QVector3D(right, bottom, 1.0f), QVector2D(1.0f, 0.0f)},
+        {QVector3D(left,  top,    1.0f), QVector2D(0.0f, 1.0f)},
+        {QVector3D(right, bottom, 1.0f), QVector2D(1.0f, 0.0f)},
+        {QVector3D(left,  bottom, 1.0f), QVector2D(0.0f, 0.0f)}
+    };
 }

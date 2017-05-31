@@ -18,12 +18,14 @@
 OpenGLWidget::~OpenGLWidget() {
     makeCurrent();
 
-    for (auto *texture : m_textures) {
-        delete texture;
+    // OpenGL related objects must be cleared
+    // with their related current
+    for (auto &&texture : m_textures) {
+        texture.reset();
     }
 
-    for (auto *entity : m_stereoEntities) {
-        delete entity;
+    for (auto &&entity : m_stereoEntities) {
+        entity.reset();
     }
 
     doneCurrent();
@@ -44,8 +46,8 @@ void OpenGLWidget::initializeGL()
 void OpenGLWidget::resizeGL(int w, int h)
 {
     // remember viewport size for drawing with correct aspect ratio
-    viewportSize.setWidth(w);
-    viewportSize.setHeight(h);
+    m_viewportSize.setWidth(w);
+    m_viewportSize.setHeight(h);
 }
 
 void OpenGLWidget::paintGL()
@@ -53,6 +55,12 @@ void OpenGLWidget::paintGL()
     glClear(GL_COLOR_BUFFER_BIT);
 
     drawEntities();
+}
+
+void OpenGLWidget::setHorizontalShift(float shift)
+{
+    m_horizontalShift = shift;
+    update();
 }
 
 void OpenGLWidget::displayModeChanged(OpenGLWidget::DisplayMode mode)
@@ -63,15 +71,18 @@ void OpenGLWidget::displayModeChanged(OpenGLWidget::DisplayMode mode)
 
 void OpenGLWidget::initTextures()
 {
-    auto *texture = new QOpenGLTexture(QImage(":/images/left.jpg").mirrored());
-    texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
-    texture->setMagnificationFilter(QOpenGLTexture::Linear);
-    m_textures.push_back(texture);
+    addTexture(":/images/left.jpg");
+    addTexture(":/images/right.jpg");
+}
 
-    texture = new QOpenGLTexture(QImage(":/images/right.jpg").mirrored());
+void OpenGLWidget::addTexture(const QString &filename)
+{
+    auto texture = std::make_unique<QOpenGLTexture>((QImage(filename).mirrored()));
     texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
     texture->setMagnificationFilter(QOpenGLTexture::Linear);
-    m_textures.push_back(texture);
+    texture->setWrapMode(QOpenGLTexture::ClampToBorder);
+    texture->setBorderColor(Qt::black);
+    m_textures.push_back(std::move(texture));
 }
 
 void OpenGLWidget::initEntities()
@@ -88,8 +99,9 @@ void OpenGLWidget::initEntities()
 
 void OpenGLWidget::drawEntities()
 {
-    auto *currentEntity = m_stereoEntities[static_cast<int>(m_currentMode)];
+    auto &&currentEntity = m_stereoEntities[static_cast<int>(m_currentMode)];
     currentEntity->setAspectRatio(computeImageAspectRatio());
+    currentEntity->setHorizontalShift(m_horizontalShift);
     currentEntity->draw();
 }
 
@@ -99,18 +111,20 @@ float OpenGLWidget::computeImageAspectRatio()
         return 1.0f;
     }
 
-    QSize imageSize(m_textures[0]->width(), m_textures[0]->height());
-    float vW = viewportSize.width(), vH = viewportSize.height(),
-          iW = imageSize.width(), iH = imageSize.height();
+    float vW = m_viewportSize.width(),
+            vH = m_viewportSize.height(),
+            iW = m_textures[0]->width(),
+            iH = m_textures[0]->height();
+
     return (vW / vH) / (iW / iH);
 }
 
 template<class T>
 void OpenGLWidget::createEntity(DisplayMode mode)
 {
-    StereoImageEntity *stereoImageEntity = new T;
+    std::unique_ptr<StereoImageEntity> stereoImageEntity = std::make_unique<T>();
     stereoImageEntity->init();
-    stereoImageEntity->setTextureLeft(m_textures[0]);
-    stereoImageEntity->setTextureRight(m_textures[1]);
-    m_stereoEntities[static_cast<int>(mode)] = stereoImageEntity;
+    stereoImageEntity->setTextureLeft(m_textures[0].get());
+    stereoImageEntity->setTextureRight(m_textures[1].get());
+    m_stereoEntities[static_cast<int>(mode)] = std::move(stereoImageEntity);
 }

@@ -27,8 +27,8 @@ public slots:
     void clearParameters();
 
 private:
-    std::map<QString, ParameterWidget*> m_parameters;
-    QHBoxLayout *m_layout;
+    std::map<QString, std::unique_ptr<ParameterWidget>> m_parameters;
+    QHBoxLayout* m_layout;
 };
 
 #endif // ALIGNMENTPARAMETERSWIDGET_H
