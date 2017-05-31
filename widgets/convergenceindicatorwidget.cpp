@@ -30,7 +30,7 @@ void ConvergenceIndicatorWidget::initPixmaps()
     initPixmap(State::ShouldWiden, ":icons/out_arrows_green.png");
     initPixmap(State::Neutral, ":icons/neutral_arrows.png");
 
-    setPixmap(*m_pixmaps[static_cast<int>(State::ShouldNarrowVeryMuch)]);
+    setPixmap(*m_pixmaps[static_cast<int>(State::Neutral)]);
 }
 
 void ConvergenceIndicatorWidget::initPixmap(State state, const QString &filepath)
