@@ -28,7 +28,7 @@ HITWidget::HITWidget(QWidget *parent)
         "    border-width: 0px;"
         "    selection-background-color: #31363b;"
         "}"
-        //"QDoubleSpinBox::up-button {
+        //"QDoubleSpinBox::up-button {"
         //"    image: url(:/images/spinup.png);"
         //"}"
    ); // to change up button image (for red, orange, green).

@@ -28,7 +28,8 @@ SOURCES += \
     widgets/parameterslistview.cpp \
     widgets/parameterwidget.cpp \
     widgets/hitwidget.cpp \
-    widgets/lineeditnocursor.cpp
+    widgets/lineeditnocursor.cpp \
+    widgets/convergenceindicatorwidget.cpp
 
 HEADERS += \
     rendering/vertex.h \
@@ -48,7 +49,8 @@ HEADERS += \
     widgets/parameterslistview.h \
     widgets/parameterwidget.h \
     widgets/hitwidget.h \
-    widgets/lineeditnocursor.h
+    widgets/lineeditnocursor.h \
+    widgets/convergenceindicatorwidget.h
 
 RESOURCES += \
     resources.qrc \
