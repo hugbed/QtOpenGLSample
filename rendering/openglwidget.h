@@ -42,15 +42,15 @@ public slots:
 private:
     void initTextures();
     void initEntities();
-    void initStereoTextureRectangle();
     void drawEntities();
-    void drawStereoTextureRectangle();
-
     float computeImageAspectRatio();
+
+    template <class T>
+    void createEntity(DisplayMode mode);
 
     QSize viewportSize;
     std::vector<QOpenGLTexture*> m_textures;
-    StereoImageEntity* m_currentEntity;
+    DisplayMode m_currentMode;
     StereoImageEntity* m_stereoEntities[static_cast<int>(DisplayMode::NB_DISPLAY_MODES)];
 };
 

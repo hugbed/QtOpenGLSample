@@ -4,6 +4,9 @@
 #include "stereoimageentity.h"
 #include "rectangleentity.h"
 
+// could have a flag keep aspect ratio (true or false)
+// horizontally squished images are useful for side-by-side 3D monitors
+
 class StereoSideBySideEntity : public StereoImageEntity
 {
 public:

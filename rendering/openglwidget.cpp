@@ -18,11 +18,11 @@
 OpenGLWidget::~OpenGLWidget() {
     makeCurrent();
 
-    for (auto & texture : m_textures) {
+    for (auto *texture : m_textures) {
         delete texture;
     }
 
-    for (auto &entity : m_stereoEntities) {
+    for (auto *entity : m_stereoEntities) {
         delete entity;
     }
 
@@ -57,28 +57,7 @@ void OpenGLWidget::paintGL()
 
 void OpenGLWidget::displayModeChanged(OpenGLWidget::DisplayMode mode)
 {
-    switch (mode) {
-    case DisplayMode::Anaglyph:
-        m_currentEntity = m_stereoEntities[static_cast<int>(DisplayMode::Anaglyph)];
-        break;
-    case DisplayMode::Opacity:
-        m_currentEntity = m_stereoEntities[static_cast<int>(DisplayMode::Opacity)];
-        break;
-    case DisplayMode::Interlaced:
-        m_currentEntity = m_stereoEntities[static_cast<int>(DisplayMode::Interlaced)];
-        break;
-    case DisplayMode::SideBySide:
-        m_currentEntity = m_stereoEntities[static_cast<int>(DisplayMode::SideBySide)];
-        break;
-    case DisplayMode::Left:
-        m_currentEntity = m_stereoEntities[static_cast<int>(DisplayMode::Left)];
-        break;
-    case DisplayMode::Right:
-        m_currentEntity = m_stereoEntities[static_cast<int>(DisplayMode::Right)];
-        break;
-    default:
-        break;
-    }
+    m_currentMode = mode;
     update();
 }
 
@@ -97,47 +76,21 @@ void OpenGLWidget::initTextures()
 
 void OpenGLWidget::initEntities()
 {
-    StereoImageEntity *stereoImageEntity = new AnaglyphRectangleEntity;
-    stereoImageEntity->init();
-    stereoImageEntity->setTextureLeft(m_textures[0]);
-    stereoImageEntity->setTextureRight(m_textures[1]);
-    m_stereoEntities[static_cast<int>(DisplayMode::Anaglyph)] = stereoImageEntity;
+    createEntity<AnaglyphRectangleEntity>(DisplayMode::Anaglyph);
+    createEntity<OpacityRectangleEntity>(DisplayMode::Opacity);
+    createEntity<InterlacedRectangleEntity>(DisplayMode::Interlaced);
+    createEntity<StereoSideBySideEntity>(DisplayMode::SideBySide);
+    createEntity<LeftRectangleEntity>(DisplayMode::Left);
+    createEntity<RightRectangleEntity>(DisplayMode::Right);
 
-    stereoImageEntity = new OpacityRectangleEntity;
-    stereoImageEntity->init();
-    stereoImageEntity->setTextureLeft(m_textures[0]);
-    stereoImageEntity->setTextureRight(m_textures[1]);
-    m_stereoEntities[static_cast<int>(DisplayMode::Opacity)] = stereoImageEntity;
-
-    stereoImageEntity = new InterlacedRectangleEntity;
-    stereoImageEntity->init();
-    stereoImageEntity->setTextureLeft(m_textures[0]);
-    stereoImageEntity->setTextureRight(m_textures[1]);
-    m_stereoEntities[static_cast<int>(DisplayMode::Interlaced)] = stereoImageEntity;
-
-    stereoImageEntity = new StereoSideBySideEntity;
-    stereoImageEntity->init();
-    stereoImageEntity->setTextureLeft(m_textures[0]);
-    stereoImageEntity->setTextureRight(m_textures[1]);
-    m_stereoEntities[static_cast<int>(DisplayMode::SideBySide)] = stereoImageEntity;
-
-    stereoImageEntity = new LeftRectangleEntity;
-    stereoImageEntity->init();
-    stereoImageEntity->setTextureLeft(m_textures[0]);
-    m_stereoEntities[static_cast<int>(DisplayMode::Left)] = stereoImageEntity;
-
-    stereoImageEntity = new RightRectangleEntity;
-    stereoImageEntity->init();
-    stereoImageEntity->setTextureRight(m_textures[1]);
-    m_stereoEntities[static_cast<int>(DisplayMode::Right)] = stereoImageEntity;
-
-    m_currentEntity = m_stereoEntities[0];
+    m_currentMode = DisplayMode::Anaglyph;
 }
 
 void OpenGLWidget::drawEntities()
 {
-    m_currentEntity->setAspectRatio(computeImageAspectRatio());
-    m_currentEntity->draw();
+    auto *currentEntity = m_stereoEntities[static_cast<int>(m_currentMode)];
+    currentEntity->setAspectRatio(computeImageAspectRatio());
+    currentEntity->draw();
 }
 
 float OpenGLWidget::computeImageAspectRatio()
@@ -150,4 +103,14 @@ float OpenGLWidget::computeImageAspectRatio()
     float vW = viewportSize.width(), vH = viewportSize.height(),
           iW = imageSize.width(), iH = imageSize.height();
     return (vW / vH) / (iW / iH);
+}
+
+template<class T>
+void OpenGLWidget::createEntity(DisplayMode mode)
+{
+    StereoImageEntity *stereoImageEntity = new T;
+    stereoImageEntity->init();
+    stereoImageEntity->setTextureLeft(m_textures[0]);
+    stereoImageEntity->setTextureRight(m_textures[1]);
+    m_stereoEntities[static_cast<int>(mode)] = stereoImageEntity;
 }
