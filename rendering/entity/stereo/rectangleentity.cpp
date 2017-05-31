@@ -44,6 +44,7 @@ void RectangleEntity::createVertexArrayObject()
 {
     m_object.create();
     m_object.bind();
+    m_program->bind();
     m_program->enableAttributeArray(0);
     m_program->enableAttributeArray(1);
     m_program->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
@@ -80,7 +81,11 @@ void RectangleEntity::setTexture(int index, QOpenGLTexture *texture)
 
 void RectangleEntity::setHorizontalShift(float shift)
 {
-    m_program->setUniformValue("uHorizontalShift", shift);
+    m_program->bind();
+    {
+        m_program->setUniformValue("uHorizontalShift", shift);
+    }
+    m_program->release();
 }
 
 void RectangleEntity::setTextureLeft(QOpenGLTexture *texture)
@@ -95,7 +100,11 @@ void RectangleEntity::setTextureRight(QOpenGLTexture *texture)
 
 void RectangleEntity::setAspectRatio(float ratio)
 {
-    m_program->setUniformValue("uAspectRatio", ratio);
+    m_program->bind();
+    {
+        m_program->setUniformValue("uAspectRatio", ratio);
+    }
+    m_program->release();
 }
 
 void RectangleEntity::setCorners(float left, float top, float right, float bottom)
@@ -140,11 +149,15 @@ void RectangleEntity::setDefaultUniforms()
 {
     // set possible uniforms (mono/stereo textures)
     // possible because of early return for non-existent uniforms in setUniformValue
-    m_program->setUniformValue("uTexture", 0);
-    m_program->setUniformValue("uTextureLeft", 0);
-    m_program->setUniformValue("uTextureRight", 1);
-    setHorizontalShift(0.0f);
-    setAspectRatio(1.0f);
+    m_program->bind();
+    {
+        m_program->setUniformValue("uTexture", 0);
+        m_program->setUniformValue("uTextureLeft", 0);
+        m_program->setUniformValue("uTextureRight", 1);
+        setHorizontalShift(0.0f);
+        setAspectRatio(1.0f);
+    }
+    m_program->release();
 }
 
 // static

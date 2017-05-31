@@ -30,3 +30,10 @@ void StereoSideBySideEntity::setHorizontalShift(float shift)
     m_rectangles[0].setHorizontalShift(shift/2.0f);
     m_rectangles[1].setHorizontalShift(-shift/2.0f);
 }
+
+void StereoSideBySideEntity::setAspectRatio(float ratio)
+{
+    for (auto &rectangle : m_rectangles) {
+        rectangle.setAspectRatio(ratio/2.0f);
+    }
+}

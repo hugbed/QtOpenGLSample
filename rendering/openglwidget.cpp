@@ -3,16 +3,17 @@
 #include <QOpenGLShaderProgram>
 
 #include "vertex.h"
-#include "entity/anaglyphrectangleentity.h"
-
-#include "entity/anaglyphrectangleentity.h"
-#include "entity/opacityrectangleentity.h"
-#include "entity/interlacedrectangleentity.h"
+#include "entity/stereo/anaglyphrectangleentity.h"
+#include "entity/stereo/anaglyphrectangleentity.h"
+#include "entity/stereo/opacityrectangleentity.h"
+#include "entity/stereo/interlacedrectangleentity.h"
 #include "entity/stereo/stereosidebysideentity.h"
-#include "entity/leftrectangleentity.h"
-#include "entity/rightrectangleentity.h"
+#include "entity/stereo/leftrectangleentity.h"
+#include "entity/stereo/rightrectangleentity.h"
 
 #include <cassert>
+
+#include <QDebug>
 
 OpenGLWidget::~OpenGLWidget() {
     makeCurrent();
@@ -42,7 +43,9 @@ void OpenGLWidget::initializeGL()
 
 void OpenGLWidget::resizeGL(int w, int h)
 {
-    // adjust image ratio somehow
+    // remember viewport size for drawing with correct aspect ratio
+    viewportSize.setWidth(w);
+    viewportSize.setHeight(h);
 }
 
 void OpenGLWidget::paintGL()
@@ -72,6 +75,8 @@ void OpenGLWidget::displayModeChanged(OpenGLWidget::DisplayMode mode)
         break;
     case DisplayMode::Right:
         m_currentEntity = m_stereoEntities[static_cast<int>(DisplayMode::Right)];
+        break;
+    default:
         break;
     }
     update();
@@ -131,5 +136,18 @@ void OpenGLWidget::initEntities()
 
 void OpenGLWidget::drawEntities()
 {
+    m_currentEntity->setAspectRatio(computeImageAspectRatio());
     m_currentEntity->draw();
+}
+
+float OpenGLWidget::computeImageAspectRatio()
+{
+    if (m_textures.empty() || m_textures[0] == nullptr) {
+        return 1.0f;
+    }
+
+    QSize imageSize(m_textures[0]->width(), m_textures[0]->height());
+    float vW = viewportSize.width(), vH = viewportSize.height(),
+          iW = imageSize.width(), iH = imageSize.height();
+    return (vW / vH) / (iW / iH);
 }

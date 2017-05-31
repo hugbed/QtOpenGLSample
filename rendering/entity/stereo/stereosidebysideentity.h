@@ -1,8 +1,8 @@
 #ifndef STEREOSIDEBYSIDEENTITY_H
 #define STEREOSIDEBYSIDEENTITY_H
 
-#include "../rectangleentity.h"
 #include "stereoimageentity.h"
+#include "rectangleentity.h"
 
 class StereoSideBySideEntity : public StereoImageEntity
 {
@@ -14,6 +14,7 @@ public:
     void setTextureRight(QOpenGLTexture *texture) override;
     void draw() override;
     void setHorizontalShift(float shift) override;
+    void setAspectRatio(float ratio) override;
 
 private:
     RectangleEntity m_rectangles[2];

@@ -8,7 +8,7 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLTexture>
 
-#include "entity/rectangleentity.h"
+#include "entity/stereo/rectangleentity.h"
 #include "entity/stereo/stereoimageentity.h"
 
 #include <vector>
@@ -41,16 +41,16 @@ public slots:
 
 private:
     void initTextures();
-
     void initEntities();
     void initStereoTextureRectangle();
-
     void drawEntities();
     void drawStereoTextureRectangle();
 
-    std::vector<QOpenGLTexture*> m_textures;
+    float computeImageAspectRatio();
 
-    Entity* m_currentEntity;
+    QSize viewportSize;
+    std::vector<QOpenGLTexture*> m_textures;
+    StereoImageEntity* m_currentEntity;
     StereoImageEntity* m_stereoEntities[static_cast<int>(DisplayMode::NB_DISPLAY_MODES)];
 };
 

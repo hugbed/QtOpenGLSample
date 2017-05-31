@@ -7,11 +7,9 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 
-#include "entity.h"
-#include "../vertex.h"
-#include "stereo/stereoimageentity.h"
-
-// todo: this seems a lot like a stereo image entity implementation (draw, setTexture, setHorizontalShift)
+#include "rendering/vertex.h"
+#include "rendering/entity/entity.h"
+#include "stereoimageentity.h"
 
 class RectangleEntity : public StereoImageEntity, QOpenGLFunctions
 {
@@ -25,6 +23,7 @@ public:
     void setHorizontalShift(float shift) override;
     void setTextureLeft(QOpenGLTexture *texture) override;
     void setTextureRight(QOpenGLTexture *texture) override;
+    void setAspectRatio(float ratio) override;
     void draw() override;
 
     virtual void addShaders();
@@ -33,7 +32,7 @@ public:
     void init(float left, float top, float right, float bottom);
     void setCorners(float left, float top, float right, float bottom);
     void setTexture(int index, QOpenGLTexture* texture);
-    void setAspectRatio(float ratio);
+
 
 protected:
     QOpenGLShaderProgram* m_program;

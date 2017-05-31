@@ -6,7 +6,7 @@ RightRectangleEntity::RightRectangleEntity()
 
 }
 
-void RightRectangleEntity::setTextureLeft(QOpenGLTexture *texture)
+void RightRectangleEntity::setTextureLeft(QOpenGLTexture */*texture*/)
 {
 }
 

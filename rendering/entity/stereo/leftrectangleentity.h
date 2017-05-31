@@ -7,7 +7,7 @@ class LeftRectangleEntity : public RectangleEntity
 {
 public:
     LeftRectangleEntity();
-    void setTextureRight(QOpenGLTexture *texture) override;
+    void setTextureRight(QOpenGLTexture */*texture*/) override;
 };
 
 #endif // LEFTRECTANGLEENTITY_H
