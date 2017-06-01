@@ -60,7 +60,7 @@
          </widget>
         </item>
         <item>
-         <widget class="DepthWidget" name="widget" native="true"/>
+         <widget class="DepthWidget" name="depthWidget" native="true"/>
         </item>
         <item>
          <widget class="Line" name="line_2">
@@ -136,6 +136,14 @@
     <addaction name="actionLeft"/>
     <addaction name="actionRight"/>
    </widget>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen_Left_Image"/>
+    <addaction name="actionOpen_Right_Image"/>
+   </widget>
+   <addaction name="menuFile"/>
    <addaction name="menuDisplay_Mode"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -182,6 +190,16 @@
   <action name="actionInterlaced">
    <property name="text">
     <string>Interlaced</string>
+   </property>
+  </action>
+  <action name="actionOpen_Left_Image">
+   <property name="text">
+    <string>Open Left Image...</string>
+   </property>
+  </action>
+  <action name="actionOpen_Right_Image">
+   <property name="text">
+    <string>Open Right Image...</string>
    </property>
   </action>
  </widget>

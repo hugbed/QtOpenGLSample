@@ -36,6 +36,8 @@ public:
     void resizeGL(int w, int h) override;
     void paintGL() override;
 
+    void setImageLeft(const QImage& image);
+    void setImageRight(const QImage& image);
     void setHorizontalShift(float shift);
 
 public slots:
@@ -44,6 +46,7 @@ public slots:
 private:
     void initTextures();
     void addTexture(const QString &filename);
+    void setTextureDefaultProperties(QOpenGLTexture *texture);
     void initEntities();
     void drawEntities();
     float computeImageAspectRatio();

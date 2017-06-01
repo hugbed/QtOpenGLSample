@@ -18,6 +18,9 @@ public:
     ~MainWindow();
 
 private:
+    template <class Functor>
+    void requestImageFilename(Functor f);
+
     Ui::MainWindow *ui;
 };
 

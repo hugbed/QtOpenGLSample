@@ -66,9 +66,16 @@ void DepthVolumeIndicator::drawRange(QPainter* painter)
 
 void DepthVolumeIndicator::drawMiddleLine(QPainter* painter)
 {
+    float middleLineRatio = - m_displayRangeMin / (m_displayRangeMax - m_displayRangeMin);
+
+    // quit if outside
+    if (middleLineRatio < 0.0f || middleLineRatio > 1.0f) {
+        return;
+    }
+
     painter->save();
     {
-        painter->translate(width() / 2, m_insideMargin);
+        painter->translate(middleLineRatio * static_cast<float>(width()), m_insideMargin);
 
         float insideHeight = static_cast<float>(height()) - m_insideMargin * 2.0f;
 
@@ -85,13 +92,13 @@ void DepthVolumeIndicator::drawMiddleLine(QPainter* painter)
 
 void DepthVolumeIndicator::setLowValue(float lowValue)
 {
-    m_lowValue = clampValueInDisplayRange(lowValue);
+    m_lowValue = lowValue;
     update();
 }
 
 void DepthVolumeIndicator::setHighValue(float highValue)
 {
-    m_highValue = clampValueInDisplayRange(highValue);
+    m_highValue = highValue;
     update();
 }
 
@@ -139,10 +146,14 @@ QRectF DepthVolumeIndicator::displayRangeRectangle()
         return {};
     }
 
-    float valueRange = m_highValue - m_lowValue;
+    // restrict values to display range
+    float lowValue = clampValueInDisplayRange(m_lowValue);
+    float highValue = clampValueInDisplayRange(m_highValue);
+
+    float valueRange = highValue - lowValue;
     auto totalWidth = static_cast<float>(width());
     float valueWidth = valueRange * totalWidth / totalRange;
-    float lowPos = totalWidth * (m_lowValue - m_displayRangeMin) / totalRange;
+    float lowPos = totalWidth * (lowValue - m_displayRangeMin) / totalRange;
 
     auto widgetHeight = static_cast<float>(height());
     QPointF marginSize(m_insideMargin, m_insideMargin);

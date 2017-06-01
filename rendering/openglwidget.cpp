@@ -57,6 +57,24 @@ void OpenGLWidget::paintGL()
     drawEntities();
 }
 
+void OpenGLWidget::setImageLeft(const QImage &image)
+{
+    auto &&texture = m_textures[0];
+    texture->destroy();
+    texture->create();
+    texture->setData(image.mirrored(false, true));
+    setTextureDefaultProperties(texture.get());
+}
+
+void OpenGLWidget::setImageRight(const QImage &image)
+{
+    auto &&texture = m_textures[1];
+    texture->destroy();
+    texture->create();
+    texture->setData(image.mirrored(false, true));
+    setTextureDefaultProperties(texture.get());
+}
+
 void OpenGLWidget::setHorizontalShift(float shift)
 {
     m_horizontalShift = shift;
@@ -78,11 +96,16 @@ void OpenGLWidget::initTextures()
 void OpenGLWidget::addTexture(const QString &filename)
 {
     auto texture = std::make_unique<QOpenGLTexture>((QImage(filename).mirrored()));
+    setTextureDefaultProperties(texture.get());
+    m_textures.push_back(std::move(texture));
+}
+
+void OpenGLWidget::setTextureDefaultProperties(QOpenGLTexture *texture)
+{
     texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
     texture->setMagnificationFilter(QOpenGLTexture::Linear);
     texture->setWrapMode(QOpenGLTexture::ClampToBorder);
     texture->setBorderColor(Qt::black);
-    m_textures.push_back(std::move(texture));
 }
 
 void OpenGLWidget::initEntities()

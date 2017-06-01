@@ -20,13 +20,22 @@ signals:
 public slots:
     void setLowValue(float lowValue);
     void setHighValue(float highValue);
+    void updateLowValue();
+    void updateHighValue();
     void setDisplayRange(float rangeMin, float rangeMax);
     void setExpectedRange(float rangeMin, float rangeMax);
+    void setShift(float shift);
 
 private:
-    std::unique_ptr<QLabel> m_minValue;
+    QString formatNumberToString(float value);
+
+    std::unique_ptr<QLabel> m_minValueLabel;
     std::unique_ptr<DepthVolumeIndicator> m_depthIndicator;
-    std::unique_ptr<QLabel> m_maxValue;
+    std::unique_ptr<QLabel> m_maxValueLabel;
+
+    float m_minValue;
+    float m_maxValue;
+    float m_shift;
 };
 
 #endif // DEPTHWIDGET_H
