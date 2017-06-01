@@ -29,7 +29,9 @@ SOURCES += \
     widgets/parameterwidget.cpp \
     widgets/hitwidget.cpp \
     widgets/lineeditnocursor.cpp \
-    widgets/convergenceindicatorwidget.cpp
+    widgets/convergenceindicatorwidget.cpp \
+    widgets/depthwidget.cpp \
+    widgets/depthvolumeindicator.cpp
 
 HEADERS += \
     rendering/vertex.h \
@@ -50,7 +52,9 @@ HEADERS += \
     widgets/parameterwidget.h \
     widgets/hitwidget.h \
     widgets/lineeditnocursor.h \
-    widgets/convergenceindicatorwidget.h
+    widgets/convergenceindicatorwidget.h \
+    widgets/depthwidget.h \
+    widgets/depthvolumeindicator.h
 
 RESOURCES += \
     resources.qrc \
